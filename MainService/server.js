@@ -13,11 +13,11 @@ app.get("/:company",(request,response)=>{
 
     const allocationPromise = fetch(`http://allocation-service:3002/${company}`,{method:"GET", signal:AbortSignal.timeout(5000)})
     .then(res => res.json())
-    .catch(err => { return{value:"Allocation Service Not Available"}})
+    .catch(err => { return{duration:"Allocation Service Not Available"}})
 
     const logisticsPromise = fetch(`http://logistics-service:3003/${company}`,{method:"GET", signal:AbortSignal.timeout(5000)})
     .then(res => res.json())
-    .catch(err => { return{value:"Logistics Service Not Available"}})
+    .catch(err => { return{location:"Logistics Service Not Available"}})
 
     Promise.all([ratePromise,allocationPromise,logisticsPromise])
     .then(([rate,allocation,logistics])=>{
